@@ -1,5 +1,5 @@
 <?php
-// Функция для конвертации текста в HEX
+// text to hex
 function textToHex($text) {
     $hex = '';
     for ($i = 0; $i < strlen($text); $i++) {
@@ -8,7 +8,7 @@ function textToHex($text) {
     return $hex;
 }
 
-// Функция для конвертации HEX в текст
+// hex to text
 function hexToText($hex) {
     $text = '';
     for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
@@ -17,17 +17,17 @@ function hexToText($hex) {
     return $text;
 }
 
-// Функция для конвертации десятичного числа в HEX
+// dec to hex
 function decimalToHex($decimal) {
     return dechex($decimal);
 }
 
-// Функция для конвертации HEX в десятичное число
+// hex to dec
 function hexToDecimal($hex) {
     return hexdec($hex);
 }
 
-// Функция для конвертации бинарного кода в HEX
+// bin to hex
 function binaryToHex($binary) {
     $hex = '';
     $binary = str_split($binary, 4);
@@ -37,7 +37,7 @@ function binaryToHex($binary) {
     return $hex;
 }
 
-// Функция для конвертации HEX в бинарный код
+// hex to bin
 function hexToBinary($hex) {
     $binary = '';
     for ($i = 0; $i < strlen($hex); $i++) {
@@ -46,17 +46,17 @@ function hexToBinary($hex) {
     return $binary;
 }
 
-// Функция для конвертации восьмеричного числа в HEX
+// oct to hex
 function octalToHex($octal) {
     return dechex(octdec($octal));
 }
 
-// Функция для конвертации HEX в восьмеричное число
+// hex to oct
 function hexToOctal($hex) {
     return decoct(hexdec($hex));
 }
 
-// Обработка запроса
+// conversion table
 if (isset($_POST['convert'])) {
     $inputValue = $_POST['inputValue'];
     $conversionType = $_POST['conversionType'];
@@ -103,7 +103,8 @@ if (isset($_POST['convert'])) {
     <h1>HEX Converter</h1>
     <form method="POST" action="">
         <label for="inputValue">Input Value:</label>
-        <input type="text" name="inputValue" id="inputValue" required>
+        <br>
+        <textarea name="inputValue" id="inputValue" rows="5" cols="50" required></textarea>
         <br><br>
         <label for="conversionType">Conversion Type:</label>
         <select name="conversionType" id="conversionType" required>
@@ -122,7 +123,8 @@ if (isset($_POST['convert'])) {
     <br>
     <?php if (isset($result)) { ?>
         <label for="result">Result:</label>
-        <input type="text" id="result" value="<?php echo $result; ?>" readonly>
+        <br>
+        <textarea id="result" rows="5" cols="50" readonly><?php echo $result; ?></textarea>
     <?php } ?>
 </body>
 </html>
