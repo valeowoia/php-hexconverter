@@ -1,130 +1,145 @@
-<?php
-// text to hex
-function textToHex($text) {
-    $hex = '';
-    for ($i = 0; $i < strlen($text); $i++) {
-        $hex .= dechex(ord($text[$i]));
-    }
-    return $hex;
-}
-
-// hex to text
-function hexToText($hex) {
-    $text = '';
-    for ($i = 0; $i < strlen($hex) - 1; $i += 2) {
-        $text .= chr(hexdec($hex[$i] . $hex[$i + 1]));
-    }
-    return $text;
-}
-
-// dec to hex
-function decimalToHex($decimal) {
-    return dechex($decimal);
-}
-
-// hex to dec
-function hexToDecimal($hex) {
-    return hexdec($hex);
-}
-
-// bin to hex
-function binaryToHex($binary) {
-    $hex = '';
-    $binary = str_split($binary, 4);
-    foreach ($binary as $chunk) {
-        $hex .= dechex(bindec($chunk));
-    }
-    return $hex;
-}
-
-// hex to bin
-function hexToBinary($hex) {
-    $binary = '';
-    for ($i = 0; $i < strlen($hex); $i++) {
-        $binary .= sprintf("%04b", hexdec($hex[$i]));
-    }
-    return $binary;
-}
-
-// oct to hex
-function octalToHex($octal) {
-    return dechex(octdec($octal));
-}
-
-// hex to oct
-function hexToOctal($hex) {
-    return decoct(hexdec($hex));
-}
-
-// conversion table
-if (isset($_POST['convert'])) {
-    $inputValue = $_POST['inputValue'];
-    $conversionType = $_POST['conversionType'];
-    $result = '';
-
-    switch ($conversionType) {
-        case 'textToHex':
-            $result = textToHex($inputValue);
-            break;
-        case 'hexToText':
-            $result = hexToText($inputValue);
-            break;
-        case 'decimalToHex':
-            $result = decimalToHex($inputValue);
-            break;
-        case 'hexToDecimal':
-            $result = hexToDecimal($inputValue);
-            break;
-        case 'binaryToHex':
-            $result = binaryToHex($inputValue);
-            break;
-        case 'hexToBinary':
-            $result = hexToBinary($inputValue);
-            break;
-        case 'octalToHex':
-            $result = octalToHex($inputValue);
-            break;
-        case 'hexToOctal':
-            $result = hexToOctal($inputValue);
-            break;
-        default:
-            $result = 'Invalid conversion type';
-            break;
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HEX Converter</title>
+    <meta charset="UTF-8">
+    <title>Конвертер</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans">
+    <style>
+        body {
+            background-color: #212121;
+            color: #fff;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            resize: none;
+            background-color: #454d47;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .btn {
+            background-color: #2196F3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>HEX Converter</h1>
-    <form method="POST" action="">
-        <label for="inputValue">Input Value:</label>
-        <br>
-        <textarea name="inputValue" id="inputValue" rows="5" cols="50" required></textarea>
-        <br><br>
-        <label for="conversionType">Conversion Type:</label>
-        <select name="conversionType" id="conversionType" required>
-            <option value="textToHex">Text to HEX</option>
-            <option value="hexToText">HEX to Text</option>
-            <option value="decimalToHex">Decimal to HEX</option>
-            <option value="hexToDecimal">HEX to Decimal</option>
-            <option value="binaryToHex">Binary to HEX</option>
-            <option value="hexToBinary">HEX to Binary</option>
-            <option value="octalToHex">Octal to HEX</option>
-            <option value="hexToOctal">HEX to Octal</option>
-        </select>
-        <br><br>
-        <input type="submit" name="convert" value="Convert">
+<div class="container">
+    <h2>Data converter</h2>
+    <form method="post">
+        <label for="input">Input:</label><br>
+        <textarea name="input" id="input" placeholder=""></textarea><br><br>
+        <label for="format">Input data format:</label><br>
+        <select name="format" id="format">
+            <option value="text">text</option>
+            <option value="binary">binary</option>
+            <option value="decimal">decimal</option>
+            <option value="hexadecimal">hexadecimal</option>
+            <option value="octal">octadecimal</option>
+        </select><br><br>
+        <label for="output">output:</label><br>
+        <textarea name="output" id="output" readonly></textarea><br><br>
+        <label for="output_format">Output data format:</label><br>
+        <select name="output_format" id="output_format">
+            <option value="text">text</option>
+            <option value="binary">binary</option>
+            <option value="decimal">decimal</option>
+            <option value="hexadecimal">hexadecimal</option>
+            <option value="octal">octadecimal</option>
+        </select><br><br>
+        <input type="submit" name="convert" value="Convert" class="btn">
     </form>
-    <br>
-    <?php if (isset($result)) { ?>
-        <label for="result">Result:</label>
-        <br>
-        <textarea id="result" rows="5" cols="50" readonly><?php echo $result; ?></textarea>
-    <?php } ?>
+</div>
+
+<?php
+if (isset($_POST['convert'])) {
+    $input = $_POST['input'];
+    $inputFormat = $_POST['format'];
+    $outputFormat = $_POST['output_format'];
+    $output = '';
+
+    if ($inputFormat === 'text') {
+        switch ($outputFormat) {
+            case 'binary':
+                $output = textToBinary($input);
+                break;
+            case 'decimal':
+                $output = textToDecimal($input);
+                break;
+            case 'hexadecimal':
+                $output = textToHexadecimal($input);
+                break;
+            case 'octal':
+                $output = textToOctal($input);
+                break;
+            default:
+                $output = $input;
+                break;
+        }
+    } elseif ($inputFormat === 'binary') {
+        switch ($outputFormat) {
+            case 'text':
+                $output = binaryToText($input);
+                break;
+        }
+    } elseif ($inputFormat === 'decimal') {
+    } elseif ($inputFormat === 'hexadecimal') {
+    } elseif ($inputFormat === 'octal') {
+    }
+
+    echo "<script>document.getElementById('output').value = '$output';</script>";
+}
+
+function textToBinary($text) {
+    return implode(' ', array_map(function ($char) {
+        return decbin(ord($char));
+    }, str_split($text)));
+}
+
+function textToDecimal($text) {
+    return implode(' ', array_map(function ($char) {
+        return ord($char);
+    }, str_split($text)));
+}
+
+function textToHexadecimal($text) {
+    return implode(' ', array_map(function ($char) {
+        return dechex(ord($char));
+    }, str_split($text)));
+}
+
+function textToOctal($text) {
+    return implode(' ', array_map(function ($char) {
+        return decoct(ord($char));
+    }, str_split($text)));
+}
+
+function binaryToText($binary) {
+    $binaryArr = explode(' ', $binary);
+    $text = '';
+    foreach ($binaryArr as $bin) {
+        $text .= chr(bindec($bin));
+    }
+    return $text;
+}
+?>
 </body>
 </html>
