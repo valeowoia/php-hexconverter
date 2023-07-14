@@ -154,10 +154,73 @@ if (isset($_POST['convert'])) {
             case 'text':
                 $output = binaryToText($input);
                 break;
+            case 'decimal':
+                $output = binaryToDecimal($input);
+                break;
+            case 'hexadecimal':
+                $output = binaryToHexadecimal($input);
+                break;
+            case 'octal':
+                $output = binaryToOctal($input);
+                break;
+            default:
+                $output = $input;
+                break;
         }
     } elseif ($inputFormat === 'decimal') {
+        switch ($outputFormat) {
+            case 'text':
+                $output = decimalToText($input);
+                break;
+            case 'binary':
+                $output = decimalToBinary($input);
+                break;
+            case 'octal':
+                $output = decimalToOctal($input);
+                break;
+            case 'hexadecimal':
+                $output = decimalToHexadecimal($input);
+                break;
+            default:
+                $output = $input;
+                break;
+        }
     } elseif ($inputFormat === 'hexadecimal') {
+        switch ($outputFormat) {
+            case 'text':
+                $output = hexadecimalToText($input);
+                break;
+            case 'binary';
+                $output = hexadecimalToBinary($input);
+                break;
+            case 'decimal';
+                $output = hexadecimalToDecimal($input);
+                break;
+            case 'octal';
+                $output = hexadecimalToOctal($input);
+                break;
+            default:
+                $output = $input;
+                break;
+        }
     } elseif ($inputFormat === 'octal') {
+        switch ($outputFormat) {
+            case 'text':
+                $output = octalToText($input);
+                break;
+            case 'binary':
+                $output = octalToBinary($input);
+                break;
+            case 'hexadecimal':
+                $output = octalToHexadecimal($input);
+                break;
+            case 'decimal':
+                $output = octalToDecimal($input);
+                break;
+            default:
+                $output = $input;
+                break;
+        }
     }
 
     echo "<script>document.getElementById('output').value = '$output';</script>";
@@ -195,6 +258,83 @@ function binaryToText($binary) {
     }
     return $text;
 }
+
+function binaryToDecimal($binary) {
+    return bindec($binary);
+}
+
+function binaryToHexadecimal($binary) {
+    $decimal = bindec($binary);
+    return dechex($decimal);
+}
+
+function binaryToOctal($binary) {
+    $decimal = bindec($binary);
+    return decoct($decimal);
+}
+
+function decimalToText($decimal) {
+    return chr($decimal);
+}
+
+function decimalToBinary($decimal) {
+    return decbin($decimal);
+}
+
+function decimalToHexadecimal($decimal) {
+    return dechex($decimal);
+}
+
+function decimalToOctal($decimal) {
+    return decoct($decimal);
+}
+
+function hexadecimalToText($hexadecimal) {
+    $hexArr = explode(' ', $hexadecimal);
+    $text = '';
+    foreach ($hexArr as $hex) {
+        $text .= chr(hexdec($hex));
+    }
+    return $text;
+}
+
+function hexadecimalToBinary($hexadecimal) {
+    $decimal = hexdec($hexadecimal);
+    return decbin($decimal);
+}
+
+function hexadecimalToDecimal($hexadecimal) {
+    return hexdec($hexadecimal);
+}
+
+function hexadecimalToOctal($hexadecimal) {
+    $decimal = hexdec($hexadecimal);
+    return decoct($decimal);
+}
+
+function octalToText($octal) {
+    $octalArr = explode(' ', $octal);
+    $text = '';
+    foreach ($octalArr as $oct) {
+        $text .= chr(octdec($oct));
+    }
+    return $text;
+}
+
+function octalToBinary($octal) {
+    $decimal = octdec($octal);
+    return decbin($decimal);
+}
+
+function octalToHexadecimal($octal) {
+    $decimal = octdec($octal);
+    return dechex($decimal);
+}
+
+function octalToDecimal($octal) {
+    return octdec($octal);
+}
+
 ?>
 </body>
 <footer>
