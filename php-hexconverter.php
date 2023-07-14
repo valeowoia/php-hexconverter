@@ -200,7 +200,7 @@ function binaryToText($binary) {
 <footer>
     <div class="container">
         <label>Copyleft 2023</label>
-        <a href="https://github.com/valeowoia/php-hexconverter" target="_blank"> valeowoia/dotfiles</a>
+        <a href="https://github.com/valeowoia/php-hexconverter" target="_blank"> valeowoia/php-hexconverter</a>
     </div>
 </footer>
 </html>
