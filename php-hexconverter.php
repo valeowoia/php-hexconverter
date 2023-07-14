@@ -2,19 +2,25 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Конвертер</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans">
+    <title>Converter</title>
     <style>
+        @font-face {
+            font-family: 'IBM VGA8';
+            src: url('font.ttf');
+        }
         body {
             background-color: #212121;
             color: #fff;
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: 'IBM VGA8', sans-serif;
         }
 
         .container {
             max-width: 500px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            margin-top: 2%;
         }
 
         textarea {
@@ -27,17 +33,52 @@
             font-size: 16px;
         }
 
+        select {
+            background-color: #454d47;
+            border: none;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            height: 35px;
+            font-family: IBM VGA8;
+            width: 100%;
+        }
+
         .btn {
-            background-color: #2196F3;
+            background-color: #128459;
             color: #fff;
             border: none;
             padding: 10px 20px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
+            font-size: 18px;
             cursor: pointer;
+            font-family: IBM VGA8;
+            width: 100%;
+        }
+
+        label {
+            display: flex;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            justify-content: center;
+            font-size: 18px;
+        }
+        h2 {
+            display: flex;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            justify-content: center;
+        }
+
+        a {
+            color: #fff;
+            font-weight: bold;
+            display: flex;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            justify-content: center;
         }
     </style>
 </head>
@@ -45,27 +86,41 @@
 <div class="container">
     <h2>Data converter</h2>
     <form method="post">
-        <label for="input">Input:</label><br>
-        <textarea name="input" id="input" placeholder=""></textarea><br><br>
-        <label for="format">Input data format:</label><br>
+        <label for="input">Input:</label>
+        <textarea name="input" id="input" placeholder=""></textarea>
+        <br>
+        <br>
+        <label for="format">Input data format:</label>
+
         <select name="format" id="format">
             <option value="text">text</option>
             <option value="binary">binary</option>
             <option value="decimal">decimal</option>
             <option value="hexadecimal">hexadecimal</option>
             <option value="octal">octadecimal</option>
-        </select><br><br>
-        <label for="output">output:</label><br>
-        <textarea name="output" id="output" readonly></textarea><br><br>
-        <label for="output_format">Output data format:</label><br>
+        </select>
+        <br>
+        <br>
+        <label for="output_format">Output data format:</label>
         <select name="output_format" id="output_format">
             <option value="text">text</option>
             <option value="binary">binary</option>
             <option value="decimal">decimal</option>
             <option value="hexadecimal">hexadecimal</option>
             <option value="octal">octadecimal</option>
-        </select><br><br>
+        </select>
+        <br>
+        <br>
         <input type="submit" name="convert" value="Convert" class="btn">
+        <br>
+        <br>
+        <label for="output">Output:</label>
+        <textarea name="output" id="output" readonly="">
+
+        </textarea>
+        
+        <br>
+        
     </form>
 </div>
 
@@ -142,4 +197,10 @@ function binaryToText($binary) {
 }
 ?>
 </body>
+<footer>
+    <div class="container">
+        <label>Copyleft 2023</label>
+        <a href="https://github.com/valeowoia/php-hexconverter" target="_blank"> valeowoia/dotfiles</a>
+    </div>
+</footer>
 </html>
