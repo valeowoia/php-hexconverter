@@ -1,2 +1,6 @@
 # php-hexconverter
-Simple PHP hex to dec converter app
+Simple PHP any to any converting (hex, dec, bin, oct, text)
+
+Preview 
+
+https://uwu.waw.pl/conv/stable/
