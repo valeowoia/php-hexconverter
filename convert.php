@@ -3,119 +3,69 @@ if (isset($_POST['convert'])) {
     $input = $_POST['input'];
     $inputFormat = $_POST['format'];
     $outputFormat = $_POST['output_format'];
-    $output = '';
 
     switch ($inputFormat) {
+        case 'bin':
+            if ($outputFormat === 'dec') {
+                $output = binaryToDecimal($input);
+            } elseif ($outputFormat === 'hex') {
+                $output = binaryToHexadecimal($input);
+            } elseif ($outputFormat === 'oct') {
+                $output = binaryToOctal($input);
+            } elseif ($outputFormat === 'text') {
+                $output = binaryToText($input);
+            }
+            break;
+        case 'dec':
+            if ($outputFormat === 'text') {
+                $output = decimalToText($input);
+            } elseif ($outputFormat === 'bin') {
+                $output = decimalToBinary($input);
+            } elseif ($outputFormat === 'oct') {
+                $output = decimalToOctal($input);
+            } elseif ($outputFormat === 'hex') {
+                $output = decimalToHexadecimal($input);
+            }
+            break;
+        case 'hex':
+            if ($outputFormat === 'text') {
+                $output = hexadecimalToText($input);
+            } elseif ($outputFormat === 'bin') {
+                $output = hexadecimalToBinary($input);
+            } elseif ($outputFormat === 'dec') {
+                $output = hexadecimalToDecimal($input);
+            } elseif ($outputFormat === 'oct') {
+                $output = hexadecimalToOctal($input);
+            }
+            break;
+        case 'oct':
+            if ($outputFormat === 'text') {
+                $output = octalToText($input);
+            } elseif ($outputFormat === 'bin') {
+                $output = octalToBinary($input);
+            } elseif ($outputFormat === 'hex') {
+                $output = octalToHexadecimal($input);
+            } elseif ($outputFormat === 'dec') {
+                $output = octalToDecimal($input);
+            }
+            break;
         case 'text':
-            switch ($outputFormat) {
-                case 'binary':
-                    $output = textToBinary($input);
-                    break;
-                case 'decimal':
-                    $output = textToDecimal($input);
-                    break;
-                case 'hexadecimal':
-                    $output = textToHexadecimal($input);
-                    break;
-                case 'octal':
-                    $output = textToOctal($input);
-                    break;
-                default:
-                    $output = $input;
-                    break;
+            if ($outputFormat === 'bin') {
+                $output = textToBinary($input);
+            } elseif ($outputFormat === 'dec') {
+                $output = textToDecimal($input);
+            } elseif ($outputFormat === 'hex') {
+                $output = textToHexadecimal($input);
+            } elseif ($outputFormat === 'oct') {
+                $output = textToOctal($input);
             }
             break;
-        case 'binary':
-            switch ($outputFormat) {
-                case 'text':
-                    $output = binaryToText($input);
-                    break;
-                case 'decimal':
-                    $output = binaryToDecimal($input);
-                    break;
-                case 'hexadecimal':
-                    $output = binaryToHexadecimal($input);
-                    break;
-                case 'octal':
-                    $output = binaryToOctal($input);
-                    break;
-            }
-            break;
-        case 'decimal':
-            switch ($outputFormat) {
-                case 'text':
-                    $output = decimalToText($input);
-                    break;
-                case 'binary':
-                    $output = decimalToBinary($input);
-                    break;
-                case 'hexadecimal':
-                    $output = decimalToHexadecimal($input);
-                    break;
-                case 'octal':
-                    $output = decimalToOctal($input);
-                    break;
-            }
-            break;
-        case 'hexadecimal':
-            switch ($outputFormat) {
-                case 'text':
-                    $output = hexadecimalToText($input);
-                    break;
-                case 'binary':
-                    $output = hexadecimalToBinary($input);
-                    break;
-                case 'decimal':
-                    $output = hexadecimalToDecimal($input);
-                    break;
-                case 'octal':
-                    $output = hexadecimalToOctal($input);
-                    break;
-            }
-            break;
-        case 'octal':
-            switch ($outputFormat) {
-                case 'text':
-                    $output = octalToText($input);
-                    break;
-                case 'binary':
-                    $output = octalToBinary($input);
-                    break;
-                case 'decimal':
-                    $output = octalToDecimal($input);
-                    break;
-                case 'hexadecimal':
-                    $output = octalToHexadecimal($input);
-                    break;
-            }
+        default:
+            $output = $input;
             break;
     }
 
-    echo $output;
-}
-
-function textToBinary($text) {
-    return implode(' ', array_map(function ($char) {
-        return decbin(ord($char));
-    }, str_split($text)));
-}
-
-function textToDecimal($text) {
-    return implode(' ', array_map(function ($char) {
-        return ord($char);
-    }, str_split($text)));
-}
-
-function textToHexadecimal($text) {
-    return implode(' ', array_map(function ($char) {
-        return dechex(ord($char));
-    }, str_split($text)));
-}
-
-function textToOctal($text) {
-    return implode(' ', array_map(function ($char) {
-        return decoct(ord($char));
-    }, str_split($text)));
+    echo json_encode($output);
 }
 
 function binaryToText($binary) {
@@ -126,80 +76,133 @@ function binaryToText($binary) {
     }
     return $text;
 }
-
-function binaryToDecimal($binary) {
-    return bindec($binary);
+function binaryToDecimal($input)
+{
+    $dec = bindec($input);
+    return $dec;
 }
 
-function binaryToHexadecimal($binary) {
-    $decimal = bindec($binary);
-    return dechex($decimal);
+function binaryToHexadecimal($input)
+{
+    $dec = bindec($input);
+    $hex = dechex($dec);
+    return $hex;
 }
 
-function binaryToOctal($binary) {
-    $decimal = bindec($binary);
-    return decoct($decimal);
+function binaryToOctal($input)
+{
+    $dec = bindec($input);
+    $oct = decoct($dec);
+    return $oct;
 }
 
-function decimalToText($decimal) {
-    return chr($decimal);
-}
-
-function decimalToBinary($decimal) {
-    return decbin($decimal);
-}
-
-function decimalToHexadecimal($decimal) {
-    return dechex($decimal);
-}
-
-function decimalToOctal($decimal) {
-    return decoct($decimal);
-}
-
-function hexadecimalToText($hexadecimal) {
-    $hexArr = explode(' ', $hexadecimal);
-    $text = '';
-    foreach ($hexArr as $hex) {
-        $text .= chr(hexdec($hex));
-    }
+function decimalToText($input)
+{
+    $text = chr($input);
     return $text;
 }
 
-function hexadecimalToBinary($hexadecimal) {
-    $decimal = hexdec($hexadecimal);
-    return decbin($decimal);
+function decimalToBinary($input)
+{
+    $bin = decbin($input);
+    return $bin;
 }
 
-function hexadecimalToDecimal($hexadecimal) {
-    return hexdec($hexadecimal);
+function decimalToOctal($input)
+{
+    $oct = decoct($input);
+    return $oct;
 }
 
-function hexadecimalToOctal($hexadecimal) {
-    $decimal = hexdec($hexadecimal);
-    return decoct($decimal);
+function decimalToHexadecimal($input)
+{
+    $hex = dechex($input);
+    return $hex;
 }
 
-function octalToText($octal) {
-    $octalArr = explode(' ', $octal);
-    $text = '';
-    foreach ($octalArr as $oct) {
-        $text .= chr(octdec($oct));
-    }
+function hexadecimalToText($input)
+{
+    $text = hex2bin($input);
     return $text;
 }
 
-function octalToBinary($octal) {
-    $decimal = octdec($octal);
-    return decbin($decimal);
+function hexadecimalToBinary($input)
+{
+    $dec = hexdec($input);
+    $bin = decbin($dec);
+    return $bin;
 }
 
-function octalToHexadecimal($octal) {
-    $decimal = octdec($octal);
-    return dechex($decimal);
+function hexadecimalToDecimal($input)
+{
+    $dec = hexdec($input);
+    return $dec;
 }
 
-function octalToDecimal($octal) {
-    return octdec($octal);
+function hexadecimalToOctal($input)
+{
+    $dec = hexdec($input);
+    $oct = decoct($dec);
+    return $oct;
 }
+
+function octalToText($input)
+{
+    $dec = octdec($input);
+    $text = chr($dec);
+    return $text;
+}
+
+function octalToBinary($input)
+{
+    $dec = octdec($input);
+    $bin = decbin($dec);
+    return $bin;
+}
+
+function octalToHexadecimal($input)
+{
+    $dec = octdec($input);
+    $hex = dechex($dec);
+    return $hex;
+}
+
+function octalToDecimal($input)
+{
+    $dec = octdec($input);
+    return $dec;
+}
+
+function textToBinary($input)
+{
+    $bin = '';
+    for ($i = 0; $i < strlen($input); $i++) {
+        $char = $input[$i];
+        $bin .= decbin(ord($char));
+    }
+    return $bin;
+}
+
+function textToDecimal($input)
+{
+    $dec = ord($input);
+    return $dec;
+}
+
+function textToHexadecimal($input)
+{
+    $hex = bin2hex($input);
+    return $hex;
+}
+
+function textToOctal($input)
+{
+    $oct = '';
+    for ($i = 0; $i < strlen($input); $i++) {
+        $char = $input[$i];
+        $oct .= decoct(ord($char));
+    }
+    return $oct;
+}
+
 ?>
